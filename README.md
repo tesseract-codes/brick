@@ -1,12 +1,8 @@
-Certainly! Below is a sample README.md file that presents and explains the app without delving into the code:
-
----
-
-# Brick Notification App
+# Brick - Notification App
 
 ## Overview
 
-The **Brick Notification App** is a productivity tool designed to help users set up daily reminders. The app allows users to create "Bricks," which are reminders consisting of a heading, message, and specific notification time. Users can set Bricks to repeat at custom intervals, ensuring they receive reminders even if the app is closed or the phone is off. 
+**Brick** is a productivity tool designed to help users set up daily reminders. The app allows users to create "Bricks," which are reminders consisting of a heading, message, and specific notification time. Users can set Bricks to repeat at custom intervals, ensuring they receive reminders even if the app is closed or the phone is off. 
 
 ## Features
 
@@ -32,6 +28,47 @@ The **Brick Notification App** is a productivity tool designed to help users set
 3. **Notifications**:
    - Receive notifications at the specified times, reminding you of the task or message you set.
    - Notifications will repeat based on the interval set for each Brick.
+
+## Technical Code Details
+
+### Architecture
+
+The app is developed using **Flutter**, a UI toolkit for building natively compiled applications for mobile from a single codebase. It utilizes a **Provider** package for state management and **flutter_local_notifications** for scheduling notifications.
+
+### Key Components
+
+- **Main.dart**: The entry point of the app. It initializes the app and sets up the routes.
+- **Brick.dart**: A model class representing a Brick, containing attributes such as heading, message, time, and interval.
+- **BrickProvider.dart**: A state management class that handles the creation, updating, deletion, and persistence of Bricks using SharedPreferences.
+- **NotificationHelper.dart**: A helper class responsible for setting up and managing notifications, including scheduling and canceling them.
+
+### Notifications
+
+Notifications are scheduled using the `flutter_local_notifications` plugin. The `NotificationHelper` class includes methods to initialize the notification system, schedule notifications with a specific time and interval, and handle boot completion to reschedule notifications.
+
+### Data Persistence
+
+Bricks are stored using the `shared_preferences` package. The BrickProvider class manages the serialization and deserialization of Brick objects to and from JSON format, ensuring data persistence across app launches.
+
+### Example Code Snippet
+
+```dart
+// Schedule a notification
+NotificationHelper.scheduleNotification(
+  id: brick.id,
+  title: brick.heading,
+  body: brick.message,
+  intervalInDays: brick.intervalDays,
+  timeOfDay: brick.time,
+);
+
+// Initialize notifications
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationHelper.initialize();
+  runApp(MyApp());
+}
+```
 
 ## Permissions
 
